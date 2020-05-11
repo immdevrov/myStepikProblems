@@ -13,12 +13,6 @@ class MinHeap:
     def __right_child_index(self, i: int) -> int:
         return (2 * i) + 2
 
-    def __left_sibling_index(self, i: int) -> int:
-        p = self.__parent_index(i)
-        return self.__left_child_index(p)
-
-
-
     def __swap(self, a, b: int):
         self.__changes.append(f'{a} {b}')
         self.__heap[a] = self.__heap[a] + self.__heap[b]
@@ -41,7 +35,8 @@ class MinHeap:
         self.__heap[index] = element
 
     def __sift_up(self, i: int):
-        if i == 0: return
+        if i == 0:
+            return
         p = self.__parent_index(i)
         if self.H(p) > self.H(i):
             self.__swap(i, p)
@@ -69,11 +64,11 @@ class MinHeap:
             self.__sift_down(ls)
         self.__sift_up(self.__last_index)
 
-    def insert_full(self, list: list, index):
+    def insert_full(self, list: list):
         self.__heap = list
         self.__last_index = len(list) - 1
-        for i in range(len(list) // 2 + 1):
-            self.__sift_down(index)
+        for i in range((self.__last_index + 1) // 2, -1, -1):
+            self.__sift_down(i)
         return self.__heap
 
     def extract_min(self):
@@ -84,13 +79,15 @@ class MinHeap:
         return min
 
 
-n = int(input())
-arr = list(map(int, input().split(' ')))
+
+
+
+n = 6
+arr = [i for i in range(n, -1, -1)]
 
 heap = MinHeap()
 
-for i in range(n):
-    heap.insert(arr[i])
+heap.insert_full(arr)
 
 changes = heap.changes()
 
