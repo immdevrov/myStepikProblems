@@ -1,8 +1,17 @@
-class MinHeap:
-    def __init__(self):
+class Heap:
+    def __init__(self, type: str):
+        if not (type in ['min', 'max']):
+            raise ValueError('type must be "min" or "max"')
+        self.type = type
         self.__heap = []
         self.__last_index = -1
         self.__changes = []
+
+    def compare(self, a, b):
+        if self.type == 'min':
+            return a < b
+        else:
+            return a > b
 
     def __parent_index(self, i: int) -> int:
         return (i - 1) // 2
@@ -38,7 +47,7 @@ class MinHeap:
         if i == 0:
             return
         p = self.__parent_index(i)
-        if self.H(p) > self.H(i):
+        if not self.compare(self.H(p), self.H(i)):
             self.__swap(i, p)
             self.__sift_up(p)
 
@@ -46,22 +55,16 @@ class MinHeap:
         l = self.__left_child_index(i)
         r = self.__right_child_index(i)
         index_min = i
-        if (l <= self.__last_index) and self.H(l) < self.H(index_min):
+        if (l <= self.__last_index) and self.compare(self.H(l), self.H(index_min)):
             index_min = l
-        if (r <= self.__last_index) and self.H(r) < self.H(index_min):
+        if (r <= self.__last_index) and self.compare(self.H(r), self.H(index_min)):
             index_min = r
         if i != index_min:
             self.__swap(i, index_min)
             self.__sift_down(index_min)
 
     def insert(self, element):
-        i = self.__last_index + 1
-        self.S(i, element)
-        ls = self.__left_sibling_index(i)
-        if ls > 0 and self.H(ls) > element:
-            element = self.H(ls)
-            self.__swap(i, ls)
-            self.__sift_down(ls)
+        self.S(self.__last_index + 1, element)
         self.__sift_up(self.__last_index)
 
     def insert_full(self, list: list):
@@ -79,13 +82,10 @@ class MinHeap:
         return min
 
 
-
-
-
 n = 6
 arr = [i for i in range(n, -1, -1)]
 
-heap = MinHeap()
+heap = Heap('min')
 
 heap.insert_full(arr)
 
