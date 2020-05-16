@@ -1,20 +1,19 @@
-n, m = 5, 5
-r = [1, 1, 1, 1, 1, 1]
-commands = [
-    [3, 5],
-    [2, 4],
-    [1, 4],
-    [5, 4],
-    [5, 3]
-]
+# n, m = 5, 5
+# r = [1, 1, 1, 1, 1, 1]
+# commands = [
+#     [3, 5],
+#     [2, 4],
+#     [1, 4],
+#     [5, 4],
+#     [5, 3]
+# ]
 
-# n, m = map(int, input().split(' '))
-# r = [int(i) for i in input().split(' ')]
-# commands = []
-# for i in range(m):
-#     commands.append(map(int, input().split(' ')))
+n, m = map(int, input().split(' '))
+r = [int(i) for i in input().split(' ')]
+commands = []
+for i in range(m):
+    commands.append(map(int, input().split(' ')))
 
-parent = [0]
 parent = [i for i in range(n)]
 
 def find(i):
